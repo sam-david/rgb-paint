@@ -1,0 +1,80 @@
+<html>
+<head>
+<link href="/bower_components/foundation/css/foundation.css" rel="stylesheet" type="text/css">
+<link href="stylesheets/style.css" rel="stylesheet" type="text/css">
+<script src='/bower_components/jquery/dist/jquery.min.js'></script>
+<script src='/bower_components/d3/d3.js'></script>
+<script src='/bower_components/foundation/js/foundation.min.js'></script>
+<script src='javascripts/paint.js'></script>
+</head>
+<body>
+<table align='center' class='color-wheel-table'>
+  <tr>
+    <% for (var i=0; i < baseColors.length; i++) { %>
+        <td id="<%= baseColors[i][0] + '-' + baseColors[i][1] + '-' + baseColors[i][2] %>" class='color-wheel-select' style='background-color: rgb(<%= baseColors[i][0] + ',' + baseColors[i][1] + ',' + baseColors[i][2] %>)'></td>
+    <% } %>
+  </tr>
+</table>
+<div align='row'>
+  <div class='small-offset-3 small-6 columns selected-color'>
+  </div>
+</div>
+
+<div class="row">
+  <div class="small-12 columns paint-canvas-row">
+    <table class='paint-canvas' align='center'>
+        <% for (var x=0; x < 32; x++) {%>
+          <tr>
+            <% for (var y=0; y < 32; y++) {%>
+              <td class='paint-cell' id="<%= x + '-' + y %>"></td>
+            <% } %>
+          </tr>
+        <% } %>
+    </table>
+  </div>
+</div>
+
+<div align='row'>
+  <div class='small-2 columns'>
+    <button id="clear">Clear</button>
+  </div>
+  <div class='small-2 columns'>
+    <button id="send-serial" onclick="sendMatrix()">Send</button>
+  </div>
+  <div class='small-2 columns left'>
+    <button onclick="saveMatrix()">Save</button>
+  </div>
+</div>
+
+<div class="row svg-row">
+  <div class="small-12 columns">
+    <svg width="820" height="820">
+      <rect width="815" height="815" x="2.5" y="2.5" fill="#555555" />
+      <rect width="810" height="810" x="5" y="5" fill="black" />
+      <% for (var x=0; x < 32; x++) {%>
+        <% for (var y=0; y < 32; y++) {%>
+          <circle cx="<%= (x * 25) + 22.5 %>" cy="<%= (y * 25) + 22.5 %>" r="12" fill="grey" />
+          <circle cx="<%= (x * 25) + 22.5 %>" cy="<%= (y * 25) + 22.5 %>" r="10" fill="white" id="<%= x + '-' + y %>" class='led-circle' />
+        <% } %>
+      <% } %>
+    </svg>
+  </div>
+</div>
+
+<div class="row">
+  <div class="small-12 columns matrix-collection-row">
+  </div>
+</div>
+<div class="row">
+  <div class="small-3 small-offset-1 columns">
+    <a onclick="scrollPreviousMatrix()" class="scroll-link">Prev</a>
+  </div>
+  <div class="small-3 columns">
+    <a onclick="loadCurrentMatrix()" class="scroll-link">Load</a>
+  </div>
+  <div class="small-3 columns left">
+    <a onclick="scrollNextMatrix()" class="scroll-link">Next</a>
+  </div>
+</div>
+</home>
+</html>

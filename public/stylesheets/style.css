@@ -1,0 +1,94 @@
+body {
+  background: grey;
+}
+
+.paint-cell {
+  /*width: 10px;*/
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border-radius: 4px;
+  border: solid black 1px;
+}
+
+.paint-canvas {
+  background-color: black;
+}
+
+.paint-select {
+  width: 25px;
+  height: 20px;
+  border: solid black 2px;
+}
+
+.paint-red {
+  background-color: red;
+}
+
+.paint-blue {
+  background-color: blue;
+}
+
+.paint-green {
+  background-color: green;
+}
+
+.paint-yellow {
+  background-color: yellow;
+}
+
+.color-wheel-table {
+  border:1px solid #CCC;
+  border-collapse:collapse;
+  margin-bottom: 0;
+}
+
+.color-wheel-select {
+  width: 2px;
+  height: 40px;
+  padding: 0;
+}
+
+.selected-color {
+  /*width: 100%;*/
+  height: 20px;
+  /*margin-bottom: 1%;*/
+}
+
+.mini-matrix-table {
+}
+
+.scroll-link {
+  color: white;
+}
+
+svg {
+  background-color: black;
+}
+svg circle {
+  /*fill: red;*/
+}
+
+.led-circle {
+  animation: neon6 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes neon6 {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #ff00de, 0 0 70px #ff00de, 0 0 80px #ff00de, 0 0 100px #ff00de, 0 0 150px #ff00de;
+  }
+  to {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff00de, 0 0 35px #ff00de, 0 0 40px #ff00de, 0 0 50px #ff00de, 0 0 75px #ff00de;
+  }
+}
+
+.svg-row {
+  text-align: center;
+}
+
+.mini-matrix-cell {
+  border-radius: 4px;
+  border: solid black 1px;
+  width: 4px;
+  height: 4px;
+}
