@@ -2,6 +2,10 @@ body {
   background: grey;
 }
 
+.row {
+  max-width: 90%;
+}
+
 .paint-cell {
   /*width: 10px;*/
   width: 10px;
@@ -52,7 +56,22 @@ body {
 .selected-color {
   /*width: 100%;*/
   height: 20px;
+  display:none;
   /*margin-bottom: 1%;*/
+}
+
+.swatch-row {
+  padding: 1%;
+  background-color: grey;
+  border: solid black 1px;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+.swatch-box {
+  height: 40px;
+  border: solid black 2px;
+  background-color: rgb(255,255,255);
 }
 
 .mini-matrix-table {
@@ -69,20 +88,21 @@ svg circle {
   /*fill: red;*/
 }
 
-.led-circle {
-  animation: neon6 1.5s ease-in-out infinite alternate;
+.board-button-row {
+
 }
 
-@keyframes neon6 {
-  from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #ff00de, 0 0 70px #ff00de, 0 0 80px #ff00de, 0 0 100px #ff00de, 0 0 150px #ff00de;
-  }
-  to {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff00de, 0 0 35px #ff00de, 0 0 40px #ff00de, 0 0 50px #ff00de, 0 0 75px #ff00de;
-  }
+.board-button-box {
+  text-align: center;
+  margin-top: 2%;
+  margin-bottom: 2%;
 }
 
 .svg-row {
+  text-align: center;
+}
+
+.svg-collection-box {
   text-align: center;
 }
 

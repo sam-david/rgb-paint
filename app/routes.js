@@ -1,8 +1,8 @@
 var RgbMatrix = require('../app/models/rgbMatrix');
-
+var SerialPort = require("serialport");
+var portName = '/dev/cu.usbmodem1421';
 module.exports = function(app, baseColors) {
   app.get('/', function(req, res) {
-    // res.set('testVar', [3,3,2,3])
     res.render('index.ejs', { baseColors: baseColors});
   });
 

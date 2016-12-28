@@ -7,7 +7,7 @@
 <script src='/bower_components/foundation/js/foundation.min.js'></script>
 <script src='javascripts/paint.js'></script>
 </head>
-<body>
+<body >
 <table align='center' class='color-wheel-table'>
   <tr>
     <% for (var i=0; i < baseColors.length; i++) { %>
@@ -20,51 +20,66 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="small-12 columns paint-canvas-row">
-    <table class='paint-canvas' align='center'>
-        <% for (var x=0; x < 32; x++) {%>
-          <tr>
-            <% for (var y=0; y < 32; y++) {%>
-              <td class='paint-cell' id="<%= x + '-' + y %>"></td>
-            <% } %>
-          </tr>
-        <% } %>
-    </table>
-  </div>
-</div>
-
-<div align='row'>
-  <div class='small-2 columns'>
-    <button id="clear">Clear</button>
-  </div>
-  <div class='small-2 columns'>
-    <button id="send-serial" onclick="sendMatrix()">Send</button>
-  </div>
-  <div class='small-2 columns left'>
-    <button onclick="saveMatrix()">Save</button>
-  </div>
-</div>
-
 <div class="row svg-row">
-  <div class="small-12 columns">
+  <div class="small-12 columns working-board">
     <svg width="820" height="820">
       <rect width="815" height="815" x="2.5" y="2.5" fill="#555555" />
       <rect width="810" height="810" x="5" y="5" fill="black" />
       <% for (var x=0; x < 32; x++) {%>
         <% for (var y=0; y < 32; y++) {%>
-          <circle cx="<%= (x * 25) + 22.5 %>" cy="<%= (y * 25) + 22.5 %>" r="12" fill="grey" />
-          <circle cx="<%= (x * 25) + 22.5 %>" cy="<%= (y * 25) + 22.5 %>" r="10" fill="white" id="<%= x + '-' + y %>" class='led-circle' />
+          <circle cx="<%= (x * 25) + 22.5 %>" cy="<%= (y * 25) + 22.5 %>" r="12" fill="grey" id="<%= x + '-' + y %>" class='led-circle-outer' />
+          <circle cx="<%= (x * 25) + 22.5 %>" cy="<%= (y * 25) + 22.5 %>" r="10" fill="white" id="<%= x + '-' + y %>" class='led-circle-inner' />
         <% } %>
       <% } %>
     </svg>
   </div>
 </div>
 
-<div class="row">
-  <div class="small-12 columns matrix-collection-row">
+<div class="row swatch-row">
+  <div class="small-1 columns">
+    <a onclick="toggleSetSwatch()">Set</a></br>
+    <a onclick="toggleDropMode()">Drop</a>
+    <a onclick="toggleCustomColorMode()">Custom</a>
+  </div>
+  <div class="small-1 columns swatch-box">
+  </div>
+  <div class="small-1 columns swatch-box">
+  </div>
+  <div class="small-1 columns swatch-box">
+  </div>
+  <div class="small-1 columns swatch-box">
+  </div>
+  <div class="small-1 columns swatch-box">
+  </div>
+  <div class="small-1 columns swatch-box">
+  </div>
+  <div class="small-1 columns swatch-box">
+  </div>
+  <div class="small-1 columns swatch-box">
+  </div>
+  <div class="small-1 columns swatch-box">
+  </div>
+  <div class="small-1 columns swatch-box left" style="background-color: rgb(0,0,0)">
   </div>
 </div>
+
+<div align='row board-button-row'>
+  <div class='small-2 small-offset-3 columns board-button-box'>
+    <button id="clear">Clear</button>
+  </div>
+  <div class='small-2 columns board-button-box'>
+    <button id="send-serial" onclick="sendMatrix()">Send</button>
+  </div>
+  <div class='small-2 columns left board-button-box'>
+    <button onclick="saveMatrix()">Save</button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="small-12 columns svg-collection-row">
+  </div>
+</div>
+
 <div class="row">
   <div class="small-3 small-offset-1 columns">
     <a onclick="scrollPreviousMatrix()" class="scroll-link">Prev</a>
