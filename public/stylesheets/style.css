@@ -98,12 +98,21 @@ svg circle {
   margin-bottom: 2%;
 }
 
+.board-title {
+  text-align: center;
+}
+
 .svg-row {
   text-align: center;
 }
 
 .svg-collection-box {
   text-align: center;
+}
+
+.collection-svg {
+  box-shadow: 5px 5px 3px 0px rgba(0,0,0,0.75);
+  border: solid white 1px;
 }
 
 .mini-matrix-cell {

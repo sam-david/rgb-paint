@@ -198,23 +198,6 @@ function convertBase7ToBase255(val) {
   return Math.round((val / 7) * 255);
 }
 
-function buildMiniMatrixTableHTML(matrix) {
-  var matrixHTML = "<table class='mini-matrix-table' align='center'>";
-
-  for (var x=0; x<32; x++) {
-    matrixHTML += '<tr>';
-    for (var y=0; y<32; y++) {
-      var rgb = matrix[x][y][0] + ',' + matrix[x][y][1] + ',' + matrix[x][y][2];
-      matrixHTML += "<td class='mini-matrix-cell' style='background-color: rgb(" + rgb + ")'></td>"
-    }
-    matrixHTML += '</tr>';
-  }
-
-  matrixHTML += '</table>'
-  return matrixHTML;
-
-}
-
 function buildMiniSVGHTML(matrix, svgId) {
   var matrixHTML = "<div class='small-3 columns svg-collection-box' onclick='loadSVG(\"" + svgId + "\")'><svg width='200' height='200'><rect width='198' height='198' x='0.6' y='0.6' /><rect width='197.5' x='1.2' y='1.2' fill='grey'/>";
 
@@ -244,19 +227,21 @@ function buildSVGHTML(matrix) {
   return matrixHTML;
 }
 
-function buildPaintCanvasHTML(matrix) {
-  var matrixHTML = "<table class='paint-canvas' align='center'>";
+function buildScaleSVGHTML(matrix, maxDimension) {
+  var matrixHTML = "<svg width='" + (maxDimension * 1) + "' height='" + (maxDimension * 1) + "'>"
+  matrixHTML += "<rect width='" + (maxDimension * .994) + "' height='" + (maxDimension * .994) + "' x='" + (maxDimension * .003) + "' y='" + (maxDimension * .003) + "' fill='#555555' />"
+  matrixHTML += "<rect width='" + (maxDimension * .988) + "' height='" + (maxDimension * .988) + "' x='" + (maxDimension * .006) + "' y='" + (maxDimension * .006) + "' fill='black' />";
 
-  for (var x=0; x<32; x++) {
-    matrixHTML += '<tr>';
-    for (var y=0; y<32; y++) {
+  for (var x=0; x < 32; x++) {
+    for (var y=0; y < 32; y++) {
       var rgb = matrix[x][y][0] + ',' + matrix[x][y][1] + ',' + matrix[x][y][2];
-      matrixHTML += "<td class='paint-cell' style='background-color: rgb(" + rgb + ")' id='" + x + '-'+ y + "'></td>"
+      matrixHTML += "<circle id=" + x + "-" + y + " cx=" + ((x * (maxDimension * .031)) + (maxDimension * .022)) + " cy=" + ((y * (maxDimension * .031)) + (maxDimension * .022)) + " r='" + (maxDimension * .015) + "' fill='grey' class='led-circle-outer' />";
+      matrixHTML += "<circle id=" + x + "-" + y + " cx=" + ((x * (maxDimension * .031)) + (maxDimension * .022)) + " cy=" + ((y * (maxDimension * .031)) + (maxDimension * .022)) + " r='" + (maxDimension * .012) + "' fill='rgb(" + rgb + ")' class='led-circle-inner' />";
     }
-    matrixHTML += '</tr>';
   }
 
-  matrixHTML += '</table>'
+  matrixHTML += "</svg>";
+
   return matrixHTML;
 }
 
@@ -285,6 +270,12 @@ function appendSVGMatrix(baseString, svgId) {
   //   })
   // });
   var svgMatrixHTML = buildMiniSVGHTML(newMatrix, svgId);
+  $(".svg-collection-row").append(svgMatrixHTML);
+}
+
+function appendScaleSVGMatrix(baseString) {
+  var newMatrix = buildBase255Matrix(baseString);
+  var svgMatrixHTML = buildScaleSVGHTML(newMatrix, 1000);
   $(".svg-collection-row").append(svgMatrixHTML);
 }
 
@@ -354,25 +345,22 @@ function toggleCustomColorMode() {
 // }
 
 function saveMatrix() {
-  // var matrixToSave = {
-  //   requestBaseString: scLogoData
-  // }
+  var currentTitle = $("#working-board-title").val();
+  console.log('title', currentTitle);
   var matrixToSave = paintMatrix;
   matrixToSave.requestBaseString = flattenAndConvertMatrixToBase7(matrixToSave.matrix).toString().replace(/,/g,"");
-  // matrixToSave.requestBaseString = baseString;
   matrixToSave.matrix = undefined;
+  matrixToSave.title = currentTitle;
 
-  // var matrixToSave = matrix
-  // debugger
+
   var request = $.ajax({
     method: 'POST',
     url: '/save',
     dataType: 'json',
     data: { matrixBody: matrixToSave}
   });
-  request.done(function( msg ) {
-    console.log(msg)
-    alert('Matrix Saved!');
+  request.done(function( matrix ) {
+    alert('Matrix Saved!' + matrix._id, matrix);
   });
 
   request.fail(function( jqXHR, textStatus ) {
@@ -409,11 +397,25 @@ function lookupMatrixCollectionById(id) {
   })
 }
 
+function buildCollectionGrid() {
+  var collectionHTML = "<div class='row'>"
+  for (var i=0; i<matrixCollection.length; i++) {
+    if (i == matrixCollection - 1) {
+      collectionHTML += "</"
+    }
+    if (i % 4 == 0) {
+      collectionHTML += "</div><div class='row'>"
+    }
+  }
+
+}
+
 function loadAllMatricies() {
   $.get('/matrix_collection', function(data, status) {
     console.log('got matrixes', data);
     console.log('status', status);
     matrixCollection = data;
+    // appendScaleSVGMatrix(data[1].requestBaseString)
     for (var i=0; i<4; i++) {
       if (data[i]) {
         appendSVGMatrix(data[i].requestBaseString, data[i]._id);

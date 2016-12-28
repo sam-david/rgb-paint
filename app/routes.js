@@ -2,8 +2,17 @@ var RgbMatrix = require('../app/models/rgbMatrix');
 var SerialPort = require("serialport");
 var portName = '/dev/cu.usbmodem1421';
 module.exports = function(app, baseColors) {
+
   app.get('/', function(req, res) {
-    res.render('index.ejs', { baseColors: baseColors});
+    var matrixQuery = RgbMatrix.find();
+    matrixQuery.exec(function(err, matrixes) {
+      console.log('got matrixes');
+      // res.json(matrixes);
+      res.render('index.ejs', {
+        baseColors: baseColors,
+        matrixes: matrixes
+      });
+    });
   });
 
   app.get('/matrix_collection', function(req, res) {
@@ -21,7 +30,11 @@ module.exports = function(app, baseColors) {
     if (matrixBody.id) { // Update by existing id
       var matrixQuery = RgbMatrix.findById(matrixBody.id);
       matrixQuery.exec(function(err, matrix) {
-        var matrixUpdateQuery = matrix.update({requestBaseString: matrixBody.requestBaseString});
+        var matrixUpdateQuery = matrix.update({
+          requestBaseString: matrixBody.requestBaseString,
+          title: matrixBody.title
+        });
+
         matrixUpdateQuery.exec(function(err, updatedMatrix) {
           res.send(updatedMatrix);
         })

@@ -6,6 +6,9 @@
 <script src='/bower_components/d3/d3.js'></script>
 <script src='/bower_components/foundation/js/foundation.min.js'></script>
 <script src='javascripts/paint.js'></script>
+<script>
+  console.log('damn matrixes', <%= matrixes %>);
+</script>
 </head>
 <body >
 <table align='center' class='color-wheel-table'>
@@ -28,7 +31,7 @@
       <% for (var x=0; x < 32; x++) {%>
         <% for (var y=0; y < 32; y++) {%>
           <circle cx="<%= (x * 25) + 22.5 %>" cy="<%= (y * 25) + 22.5 %>" r="12" fill="grey" id="<%= x + '-' + y %>" class='led-circle-outer' />
-          <circle cx="<%= (x * 25) + 22.5 %>" cy="<%= (y * 25) + 22.5 %>" r="10" fill="white" id="<%= x + '-' + y %>" class='led-circle-inner' />
+          <circle cx="<%= (x * 25) + 22.5 %>" cy="<%= (y * 25) + 22.5 %>" r="10" fill="black" id="<%= x + '-' + y %>" class='led-circle-inner' />
         <% } %>
       <% } %>
     </svg>
@@ -63,6 +66,12 @@
   </div>
 </div>
 
+<div class="row">
+  <div class="small-6 small-offset-3 columns">
+    <input type="text" id="working-board-title" class='board-title' />
+  </div>
+</div>
+
 <div align='row board-button-row'>
   <div class='small-2 small-offset-3 columns board-button-box'>
     <button id="clear">Clear</button>
@@ -79,6 +88,8 @@
   <div class="small-12 columns svg-collection-row">
   </div>
 </div>
+
+
 
 <div class="row">
   <div class="small-3 small-offset-1 columns">
