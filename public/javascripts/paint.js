@@ -412,7 +412,7 @@ function buildCollectionGrid() {
 
 function loadAllMatricies() {
   $.get('/matrix_collection', function(data, status) {
-    console.log('got matrixes', data);
+    console.log('got matrices', data);
     console.log('status', status);
     matrixCollection = data;
     // appendScaleSVGMatrix(data[1].requestBaseString)

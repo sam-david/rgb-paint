@@ -5,21 +5,21 @@ module.exports = function(app, baseColors) {
 
   app.get('/', function(req, res) {
     var matrixQuery = RgbMatrix.find();
-    matrixQuery.exec(function(err, matrixes) {
-      console.log('got matrixes');
-      // res.json(matrixes);
+    matrixQuery.exec(function(err, matrices) {
+      console.log('got matrices');
+      // res.json(matrices);
       res.render('index.ejs', {
         baseColors: baseColors,
-        matrixes: matrixes
+        matrices: matrices
       });
     });
   });
 
   app.get('/matrix_collection', function(req, res) {
     var matrixQuery = RgbMatrix.find();
-    matrixQuery.exec(function(err, matrixes) {
-      console.log('got matrixes');
-      res.json(matrixes);
+    matrixQuery.exec(function(err, matrices) {
+      console.log('got matrices');
+      res.json(matrices);
     });
   });
 
