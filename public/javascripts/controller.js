@@ -2,6 +2,7 @@ function Controller() {
   this.settingSwatch = false;
   this.dropMode = false;
   this.customColor = false;
+  this.currentEnvironment = 'development';
 }
 
 Controller.prototype = {
