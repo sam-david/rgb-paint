@@ -13,8 +13,12 @@ if (process.env.ENABLE_SERIAL) {
 }
 
 // connect db
-var configDB = require('./config/database.js') || process.env.DATABASE_URL;
-mongoose.connect(configDB.url);
+if (process.env.ENVIRONMENT == 'production') {
+  var configDbURL = process.env.DATABASE_URL;
+} else {
+  var configDbURL = require('./config/database.js').url;
+}
+mongoose.connect(configDbURL);
 
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser()); // get information from html forms
