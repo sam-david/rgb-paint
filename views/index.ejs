@@ -166,7 +166,7 @@
 <script>
   // $(document).foundation();
 
-  pageController.currentEnvironment = <%= process.env.ENVIRONMENT %>;
+  pageController.currentEnvironment = "<%= process.env.ENVIRONMENT || 'development' %>";
 </script>
 </body>
 </home>

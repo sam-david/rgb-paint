@@ -80,7 +80,9 @@ Matrix.prototype = {
       }
     }
     matrixHTML += "</svg>";
-    matrixHTML += "<p class='remove-svg-text' onclick='pageController.removeMatrixFromCollection(\"" + this.id + "\")'>X</p>"
+    if (pageController.currentEnvironment == 'development') { // controller dependancy
+      matrixHTML += "<p class='remove-svg-text' onclick='pageController.removeMatrixFromCollection(\"" + this.id + "\")'>X</p>"
+    }
     matrixHTML += "</div>";
     return matrixHTML;
   },
