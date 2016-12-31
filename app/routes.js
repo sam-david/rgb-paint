@@ -1,9 +1,14 @@
 var RgbMatrix = require('../app/models/rgbMatrix');
-// var SerialPort = require("serialport");
-var portName = '/dev/cu.usbmodem1421';
+
+if (process.env.ENABLE_SERIAL) {
+  var SerialPort = require("serialport");
+  var portName = '/dev/cu.usbmodem1421';
+}
+
 module.exports = function(app, baseColors) {
 
   app.get('/', function(req, res) {
+    console.log('process', process.env);
     var matrixQuery = RgbMatrix.find();
     matrixQuery.exec(function(err, matrices) {
       console.log('got matrices');
@@ -64,34 +69,36 @@ module.exports = function(app, baseColors) {
     }
   });
 
-  // app.post('/draw', function(req, res) {
-  //   var drawString = req.body.drawString;
-  //   // console.log('Request:', req.body.drawString)
-  //   var serialPort = new SerialPort(portName, {
-  //         baudrate: 9600,
-  //          dataBits: 8,
-  //          parity: 'none',
-  //          stopBits: 1,
-  //          flowControl: false
-  //     });
+  if (process.env.ENABLE_SERIAL) {
+    app.post('/draw', function(req, res) {
+      var drawString = req.body.drawString;
+      // console.log('Request:', req.body.drawString)
+      var serialPort = new SerialPort(portName, {
+            baudrate: 9600,
+             dataBits: 8,
+             parity: 'none',
+             stopBits: 1,
+             flowControl: false
+        });
 
-  //     serialPort.on("open", function () {
-  //       console.log('open serial communication');
-  //       setTimeout(function() {
+        serialPort.on("open", function () {
+          console.log('open serial communication');
+          setTimeout(function() {
 
-  //         serialPort.write(drawString,function(err) {
-  //           if (err) {
-  //             console.log("error:", err);
-  //             res.send(err);
-  //           }
-  //           console.log('message written')
-  //           res.send('message written');
-  //         });
+            serialPort.write(drawString,function(err) {
+              if (err) {
+                console.log("error:", err);
+                res.send(err);
+              }
+              console.log('message written')
+              res.send('message written');
+            });
 
-  //         setTimeout(function() {
-  //           serialPort.close();
-  //         },8000)
-  //       }, 2000);
-  //     });
-  // });
+            setTimeout(function() {
+              serialPort.close();
+            },8000)
+          }, 2000);
+        });
+    });
+  }
 };

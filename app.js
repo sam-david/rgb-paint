@@ -2,15 +2,18 @@ var express  = require('express');
 var app      = express();
 var path     = require('path');
 var port     = process.env.PORT || 8080;
-var portName = '/dev/cu.usbmodem1421';
 var mongoose = require('mongoose');
-// var SerialPort = require("serialport");
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
-var baseColors = require('./rgb').allColorsBase255();
+var baseColors = require(__dirname + '/rgb').allColorsBase255();
+
+if (process.env.ENABLE_SERIAL) {
+  var SerialPort = require("serialport");
+  var portName = '/dev/cu.usbmodem1421';
+}
 
 // connect db
-var configDB = require('./config/database.js');
+var configDB = require(__dirname + '/config/database.js');
 mongoose.connect(configDB.url);
 
 app.use(cookieParser()); // read cookies (needed for auth)
