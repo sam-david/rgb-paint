@@ -23,9 +23,22 @@ module.exports = function(app, baseColors) {
     });
   });
 
+  app.delete('/matrix_collection', function(req, res) {
+    var matrixId = req.body.id
+    console.log('deleteing', matrixId);
+    var matrixQuery = RgbMatrix.findById(matrixId);
+      matrixQuery.exec(function(err, matrix) {
+        matrix.remove();
+        res.json(matrixId);
+        // matrixUpdateQuery.exec(function(err, updatedMatrix) {
+        //   res.send(updatedMatrix);
+        // })
+      })
+  });
+
   app.post('/save', function(req, res) {
     var matrixBody = req.body.matrixBody;
-    console.log('saving', matrixBody);
+    console.log('saving/updating', matrixBody.id);
 
     if (matrixBody.id) { // Update by existing id
       var matrixQuery = RgbMatrix.findById(matrixBody.id);
@@ -36,15 +49,18 @@ module.exports = function(app, baseColors) {
         });
 
         matrixUpdateQuery.exec(function(err, updatedMatrix) {
-          res.send(updatedMatrix);
+          console.log('Updated Matrix!', updatedMatrix)
+          console.log('err', err)
+          console.log('matrix', matrix.title)
+          debugger
+          res.json(updatedMatrix);
         })
       })
-      console.log('Updated matrix!');
     } else { // Or save new
       var rgbMatrix = new RgbMatrix(matrixBody)
       rgbMatrix.save();
       console.log('Saved new Matrix!')
-      res.send(rgbMatrix);
+      res.json(rgbMatrix);
     }
   });
 

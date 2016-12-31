@@ -2,9 +2,47 @@ body {
   background: grey;
 }
 
+.top-bar li .active {
+  background-color: #f04124;
+}
+
+.top-bar-active {
+  background-color: #f04124 !important;
+}
+
+.top-bar-active:hover {
+  background-color: black !important;
+}
+
 .row {
   max-width: 90%;
 }
+
+footer {
+  height: 50px;
+  color: white;
+  background-color: black;
+  border-top: solid red 2px;
+  text-align: right;
+}
+
+.footer-text {
+  margin-right: 2%;
+  margin-top: 5px;
+}
+
+.neon-border {
+  border: 0;
+  height: 0;
+  box-shadow: 0 0 3px 4px rgb(255, 45, 0);
+  margin-bottom: 2%;
+  margin-top: 2%;
+}
+
+.neon-border:after {
+  content: "\00a0";
+}
+
 
 .paint-cell {
   /*width: 10px;*/
@@ -48,24 +86,31 @@ body {
 }
 
 .color-wheel-select {
-  width: 2px;
+  width: 3px;
   height: 40px;
   padding: 0;
 }
 
 .selected-color {
   /*width: 100%;*/
-  height: 20px;
+  height: 30px;
   display:none;
-  /*margin-bottom: 1%;*/
+  text-align: center;
+  margin-bottom: 1%;
+  border-bottom: solid black 2px;
+  border-right: solid black 2px;
+  border-left: solid black 2px;
+}
+
+.swatch-container {
+  background-color: #cccccc;
+  border: solid black 1px;
+  margin-top: 2%;
+  margin-bottom: 2%;
 }
 
 .swatch-row {
   padding: 1%;
-  background-color: grey;
-  border: solid black 1px;
-  margin-top: 1%;
-  margin-bottom: 1%;
 }
 
 .swatch-box {
@@ -88,8 +133,27 @@ svg circle {
   /*fill: red;*/
 }
 
+.working-board-svg {
+  box-shadow: 6px 6px 8px 0px rgba(0,0,0,0.75);
+  margin-bottom: 2%;
+  margin-top: 2%;
+}
+
 .board-button-row {
 
+}
+
+.swatch-button-row {
+  text-align: center;
+}
+
+.swatch-button {
+  background-color: #f04124;
+  padding: .5rem 1.8rem .5rem 1.8rem;
+}
+
+.swatch-button:hover {
+  background-color: black;
 }
 
 .board-button-box {
@@ -106,13 +170,23 @@ svg circle {
   text-align: center;
 }
 
+.collection-row {
+
+}
+
 .svg-collection-box {
   text-align: center;
+  margin-bottom: 2%;
 }
 
 .collection-svg {
   box-shadow: 5px 5px 3px 0px rgba(0,0,0,0.75);
   border: solid white 1px;
+  cursor: pointer;
+}
+
+.svg-collection-title {
+  margin-bottom: 0;
 }
 
 .mini-matrix-cell {

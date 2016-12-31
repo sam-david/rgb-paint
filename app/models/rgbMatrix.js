@@ -3,6 +3,7 @@ var rgbMatrixSchema = new mongoose.Schema({
   matrix: [Number],
   requestBaseString: String,
   title: String,
+  isComplete: Boolean,
   createdAt: {type: Date, default: Date.now}
 })
 
