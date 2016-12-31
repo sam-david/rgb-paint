@@ -13,7 +13,7 @@ if (process.env.ENABLE_SERIAL) {
 }
 
 // connect db
-var configDB = require(__dirname + '/config/database.js');
+var configDB = require('./config/database.js');
 mongoose.connect(configDB.url);
 
 app.use(cookieParser()); // read cookies (needed for auth)
