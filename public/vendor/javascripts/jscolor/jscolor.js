@@ -1090,12 +1090,40 @@ var jsc = {
 			}
 		};
 
+		// original
+		// this.exportColor = function (flags) {
+		// 	if (!(flags & jsc.leaveValue) && this.valueElement) {
+		// 		var value = this.toString();
+		// 		if (this.uppercase) { value = value.toUpperCase(); }
+		// 		if (this.hash) { value = '#' + value; }
 
+		// 		if (jsc.isElementType(this.valueElement, 'input')) {
+		// 			this.valueElement.value = value;
+		// 		} else {
+		// 			this.valueElement.innerHTML = value;
+		// 		}
+		// 	}
+		// 	if (!(flags & jsc.leaveStyle)) {
+		// 		if (this.styleElement) {
+		// 			this.styleElement.style.backgroundImage = 'none';
+		// 			this.styleElement.style.backgroundColor = '#' + this.toString();
+		// 			this.styleElement.style.color = this.isLight() ? '#000' : '#FFF';
+		// 		}
+		// 	}
+		// 	if (!(flags & jsc.leavePad) && isPickerOwner()) {
+		// 		redrawPad();
+		// 	}
+		// 	if (!(flags & jsc.leaveSld) && isPickerOwner()) {
+		// 		redrawSld();
+		// 	}
+		// };
+
+		// user modified
 		this.exportColor = function (flags) {
 			if (!(flags & jsc.leaveValue) && this.valueElement) {
-				var value = this.toString();
-				if (this.uppercase) { value = value.toUpperCase(); }
-				if (this.hash) { value = '#' + value; }
+				var value = this.toRGBStringShort();
+				// if (this.uppercase) { value = value.toUpperCase(); }
+				// if (this.hash) { value = '#' + value; }
 
 				if (jsc.isElementType(this.valueElement, 'input')) {
 					this.valueElement.value = value;
@@ -1106,7 +1134,7 @@ var jsc = {
 			if (!(flags & jsc.leaveStyle)) {
 				if (this.styleElement) {
 					this.styleElement.style.backgroundImage = 'none';
-					this.styleElement.style.backgroundColor = '#' + this.toString();
+					this.styleElement.style.backgroundColor = this.toRGBString();
 					this.styleElement.style.color = this.isLight() ? '#000' : '#FFF';
 				}
 			}
@@ -1235,14 +1263,19 @@ var jsc = {
 
 
 		this.toString = function () {
-			// return (
-			// 	(0x100 | Math.round(this.rgb[0])).toString(16).substr(1) +
-			// 	(0x100 | Math.round(this.rgb[1])).toString(16).substr(1) +
-			// 	(0x100 | Math.round(this.rgb[2])).toString(16).substr(1)
-			// );
+			return (
+				(0x100 | Math.round(this.rgb[0])).toString(16).substr(1) +
+				(0x100 | Math.round(this.rgb[1])).toString(16).substr(1) +
+				(0x100 | Math.round(this.rgb[2])).toString(16).substr(1) + 'b'
+			);
+		};
 
-			// User modified
-			return this.toRGBString();
+		this.toRGBStringShort = function () {
+			return (
+				Math.round(this.rgb[0]) + ',' +
+				Math.round(this.rgb[1]) + ',' +
+				Math.round(this.rgb[2])
+			);
 		};
 
 
@@ -1252,17 +1285,10 @@ var jsc = {
 
 
 		this.toRGBString = function () {
-			// return ('rgb(' +
-			// 	Math.round(this.rgb[0]) + ',' +
-			// 	Math.round(this.rgb[1]) + ',' +
-			// 	Math.round(this.rgb[2]) + ')'
-			// );
-
-			// User modified
-			return (
+			return ('rgb(' +
 				Math.round(this.rgb[0]) + ',' +
 				Math.round(this.rgb[1]) + ',' +
-				Math.round(this.rgb[2])
+				Math.round(this.rgb[2]) + ')'
 			);
 		};
 

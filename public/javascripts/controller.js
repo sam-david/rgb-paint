@@ -39,7 +39,7 @@ Controller.prototype = {
     })
 
     callback(collection)
-    console.log('final data matrix!', matrixCollection)
+    console.log('Final data matrices', matrixCollection)
   },
   loadNewCurrentMatrix(id) {
     var newMatrix = matrixCollection.lookupMatrixById(id)
