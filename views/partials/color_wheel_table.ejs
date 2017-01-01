@@ -1,0 +1,7 @@
+<table align='center' class='color-wheel-table'>
+  <tr>
+    <% for (var i=0; i < baseColors.length; i++) { %>
+        <td id="<%= baseColors[i][0] + '-' + baseColors[i][1] + '-' + baseColors[i][2] %>" class='color-wheel-select' style='background-color: rgb(<%= baseColors[i][0] + ',' + baseColors[i][1] + ',' + baseColors[i][2] %>)'></td>
+    <% } %>
+  </tr>
+</table>

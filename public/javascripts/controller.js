@@ -8,6 +8,14 @@ function Controller() {
 Controller.prototype = {
   sendMatrix: function() {
     console.log('Sending to arduino:', currentMatrix)
+    swal({
+      title: "Sending to Arduino!",
+      text: "I will close in 5 seconds.",
+      timer: 5000,
+      type: "success",
+      showConfirmButton: false,
+      showLoaderOnConfirm: true
+    });
     var base7String = currentMatrix.convertBase255MatrixToBase7String();
     var request = $.ajax({
       method: 'POST',
@@ -117,6 +125,7 @@ Controller.prototype = {
     request.done(function( matrix ) {
       // alert('Matrix Deleted!' + matrix._id, matrix);
       console.log('Matrix deleted', matrix)
+      alertify.message("Matrix Deleted")
     });
 
     request.fail(function( jqXHR, textStatus ) {

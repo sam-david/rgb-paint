@@ -143,6 +143,10 @@ svg circle {
 
 }
 
+.sweet-alert fieldset {
+  display: none;
+}
+
 .swatch-button-row {
   text-align: center;
 }
@@ -172,6 +176,20 @@ svg circle {
 
 .collection-row {
 
+}
+
+.remove-svg-text {
+
+  color: red !important;
+  font-size: 1.2em;
+}
+
+.remove-svg-text:hover {
+  color: white;
+}
+
+.remove-svg-icon {
+  margin-top: 3%;
 }
 
 .svg-collection-box {

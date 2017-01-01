@@ -8,7 +8,6 @@ if (process.env.ENABLE_SERIAL) {
 module.exports = function(app, baseColors) {
 
   app.get('/', function(req, res) {
-    console.log('process', process.env);
     var matrixQuery = RgbMatrix.find();
     matrixQuery.exec(function(err, matrices) {
       console.log('got matrices');
@@ -18,6 +17,10 @@ module.exports = function(app, baseColors) {
         matrices: matrices
       });
     });
+  });
+
+  app.get('/project', function(req, res) {
+    res.render('project.ejs');
   });
 
   app.get('/matrix_collection', function(req, res) {

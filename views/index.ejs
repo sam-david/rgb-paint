@@ -1,131 +1,22 @@
 <html>
 <head>
-  <title>Paint Matrix</title>
-  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="vendor/stylesheets/default.min.css">
-  <link rel="stylesheet" href="vendor/stylesheets/alertify.min.css">
-  <link rel="stylesheet" href="stylesheets/font-awesome/css/font-awesome.min.css">
-  <link href="/bower_components/foundation/css/foundation.css" rel="stylesheet" type="text/css">
-  <link href="stylesheets/style.css" rel="stylesheet" type="text/css">
-  <script src='/bower_components/jquery/dist/jquery.min.js'></script>
-  <script src='/bower_components/modernizr/modernizr.js'></script>
-  <script src='/bower_components/d3/d3.js'></script>
-  <script src='vendor/javascripts/alertify.js'></script>
-  <script src='vendor/javascripts/jscolor/jscolor.js'></script>
-  <script src='/bower_components/foundation/js/foundation.min.js'></script>
-  <script src='/bower_components/foundation/js/foundation/foundation.topbar.js'></script>
-  <script src='/bower_components/foundation/js/foundation/foundation.reveal.js'></script>
-
-  <script src='javascripts/data.js'></script>
-  <script src='javascripts/rgb.js'></script>
-  <script src='javascripts/matrix.js'></script>
-  <script src='javascripts/matrix-collection.js'></script>
-  <script src='javascripts/controller.js'></script>
-  <script src='javascripts/view.js'></script>
-  <script src='javascripts/events.js'></script>
-  <script src='javascripts/paint.js'></script>
+  <% include partials/head %>
 </head>
 <body>
-<nav class="top-bar" data-topbar role="navigation">
-  <ul class="title-area">
-    <li class="name">
-      <h1><a href="#">Paint Matrix</a></h1>
-    </li>
-     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-  </ul>
 
-  <section class="top-bar-section">
-    <!-- Right Nav Section -->
-    <ul class="right">
-      <li class="active "><a href="#" class="top-bar-active">Login</a></li>
-    </ul>
+<% include partials/nav %>
 
-    <!-- Left Nav Section -->
-    <ul class="left">
-      <li><a href="#">Collection</a></li>
-      <li><a href="#">Project</a></li>
-    </ul>
-  </section>
-</nav>
+<% include partials/working_board %>
 
-<div class="row svg-row">
-  <div class="small-12 columns working-board">
-    <svg width="820" height="820" class="working-board-svg">
-      <rect width="815" height="815" x="2.5" y="2.5" fill="#555555" />
-      <rect width="810" height="810" x="5" y="5" fill="black" />
-      <% for (var x=0; x < 32; x++) {%>
-        <% for (var y=0; y < 32; y++) {%>
-          <circle cx="<%= (x * 25) + 22.5 %>" cy="<%= (y * 25) + 22.5 %>" r="12" fill="grey" id="<%= x + '-' + y %>" class='led-circle-outer' />
-          <circle cx="<%= (x * 25) + 22.5 %>" cy="<%= (y * 25) + 22.5 %>" r="10" fill="black" id="<%= x + '-' + y %>" class='led-circle-inner' />
-        <% } %>
-      <% } %>
-    </svg>
-  </div>
-</div>
+<% include partials/color_wheel_table %>
 
-<table align='center' class='color-wheel-table'>
-  <tr>
-    <% for (var i=0; i < baseColors.length; i++) { %>
-        <td id="<%= baseColors[i][0] + '-' + baseColors[i][1] + '-' + baseColors[i][2] %>" class='color-wheel-select' style='background-color: rgb(<%= baseColors[i][0] + ',' + baseColors[i][1] + ',' + baseColors[i][2] %>)'></td>
-    <% } %>
-  </tr>
-</table>
 <div align='row'>
   <div class='small-offset-3 small-6 columns selected-color'>
     Current Color
   </div>
 </div>
 
-<div class="swatch-container">
-  <div class="row swatch-row">
-
-    <div class="small-1 small-offset-2 columns swatch-box">
-    </div>
-    <div class="small-1 columns swatch-box">
-    </div>
-    <div class="small-1 columns swatch-box">
-    </div>
-    <div class="small-1 columns swatch-box">
-    </div>
-    <div class="small-1 columns swatch-box">
-    </div>
-    <div class="small-1 columns swatch-box">
-    </div>
-    <div class="small-1 columns swatch-box" style="background-color: rgb(255,255,255)">
-    </div>
-    <div class="small-1 columns swatch-box left" style="background-color: rgb(0,0,0)">
-    </div>
-  </div>
-  <div class="row swatch-button-row">
-    <div class="small-2 small-offset-2 columns">
-      <button class="swatch-button" onclick="pageController.toggleSetSwatch()">
-        <i class="fa fa-arrow-down" aria-hidden="true"></i>
-        Set
-      </button>
-    </div>
-    <div class="small-2 columns">
-      <button class="swatch-button" onclick="pageController.toggleDropMode()">
-        <i class="fa fa-tint" aria-hidden="true"></i>
-        Drop
-      </button>
-    </div>
-    <div class="small-2 columns left">
-      <button class="swatch-button" onclick="pageController.toggleCustomColorMode()">
-        <i class="fa fa-cog" aria-hidden="true"></i>
-        Custom
-      </button>
-    </div>
-    <div class="small-2 columns left">
-        <input class="jscolor {onFineChange:'pageController.jsColorChange(this)'}" />
-    </div>
-  </div>
-</div>
-
-
-
-
+<% include partials/swatches %>
 
 <div class="row">
   <div class="small-6 small-offset-3 columns">
@@ -152,19 +43,9 @@
   <div class="small-12 columns svg-collection-row">
   </div>
 </div>
-<a href="#" data-reveal-id="myModal">Click Me For A Modal</a>
 
-<div id="myModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-  <h2 id="modalTitle">Awesome. I have it.</h2>
-  <p class="lead">Your couch.  It is mine.</p>
-  <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
-  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-</div>
-<footer>
-  <p class="footer-text">Sam David | Copyright © 2017</p>
-</footer>
+<% include partials/footer %>
 <script>
-  // $(document).foundation();
 
   pageController.currentEnvironment = "<%= process.env.ENVIRONMENT || 'development' %>";
 </script>

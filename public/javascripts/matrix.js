@@ -81,7 +81,9 @@ Matrix.prototype = {
     }
     matrixHTML += "</svg>";
     if (pageController.currentEnvironment == 'development') { // controller dependancy
-      matrixHTML += "<p class='remove-svg-text' onclick='pageController.removeMatrixFromCollection(\"" + this.id + "\")'>X</p>"
+      matrixHTML += "</br><a class='remove-svg-text' onclick='pageController.removeMatrixFromCollection(\"" + this.id + "\")'>"
+      matrixHTML += "<i class='fa fa-times-circle remove-svg-icon' aria-hidden='true'></i>"
+      matrixHTML += "</a>"
     }
     matrixHTML += "</div>";
     return matrixHTML;

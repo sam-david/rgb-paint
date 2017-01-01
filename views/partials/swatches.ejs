@@ -1,0 +1,44 @@
+<div class="swatch-container">
+  <div class="row swatch-row">
+
+    <div class="small-1 small-offset-2 columns swatch-box">
+    </div>
+    <div class="small-1 columns swatch-box">
+    </div>
+    <div class="small-1 columns swatch-box">
+    </div>
+    <div class="small-1 columns swatch-box">
+    </div>
+    <div class="small-1 columns swatch-box">
+    </div>
+    <div class="small-1 columns swatch-box">
+    </div>
+    <div class="small-1 columns swatch-box" style="background-color: rgb(255,255,255)">
+    </div>
+    <div class="small-1 columns swatch-box left" style="background-color: rgb(0,0,0)">
+    </div>
+  </div>
+  <div class="row swatch-button-row">
+    <div class="small-2 small-offset-2 columns">
+      <button class="swatch-button" onclick="pageController.toggleSetSwatch()">
+        <i class="fa fa-arrow-down" aria-hidden="true"></i>
+        Set
+      </button>
+    </div>
+    <div class="small-2 columns">
+      <button class="swatch-button" onclick="pageController.toggleDropMode()">
+        <i class="fa fa-tint" aria-hidden="true"></i>
+        Drop
+      </button>
+    </div>
+    <div class="small-2 columns left">
+      <button class="swatch-button" onclick="pageController.toggleCustomColorMode()">
+        <i class="fa fa-cog" aria-hidden="true"></i>
+        Custom
+      </button>
+    </div>
+    <div class="small-2 columns left">
+        <input class="jscolor {onFineChange:'pageController.jsColorChange(this)'}" />
+    </div>
+  </div>
+</div>
