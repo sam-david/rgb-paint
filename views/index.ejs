@@ -32,6 +32,9 @@
   <div class='small-2 columns board-button-box'>
     <button id="send-serial" onclick="pageController.sendMatrix()">Send</button>
   </div>
+  <div class='small-2 columns board-button-box'>
+    <button class="live-button" onclick="pageController.toggleLiveMode()">Live</button>
+  </div>
   <div class='small-2 columns left board-button-box'>
     <button onclick="pageController.saveCurrentMatrix()">Save</button>
   </div>
@@ -46,8 +49,8 @@
 
 <% include partials/footer %>
 <script>
-
   pageController.currentEnvironment = "<%= process.env.ENVIRONMENT || 'development' %>";
+  pageController.serialEnabled = <%= process.env.ENABLE_SERIAL || false %>;
 </script>
 </body>
 </home>

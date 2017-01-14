@@ -1,11 +1,11 @@
 var RgbMatrix = require('../app/models/rgbMatrix');
 
-if (process.env.ENABLE_SERIAL) {
-  var SerialPort = require("serialport");
-  var portName = '/dev/cu.usbmodem1421';
-}
+// if (process.env.ENABLE_SERIAL) {
+//   var SerialPort = require("serialport");
+//   var portName = '/dev/cu.usbmodem1421';
+// }
 
-module.exports = function(app, baseColors) {
+module.exports = function(app, baseColors, serialPort) {
 
   app.get('/', function(req, res) {
     var matrixQuery = RgbMatrix.find();
@@ -72,36 +72,21 @@ module.exports = function(app, baseColors) {
     }
   });
 
-  if (process.env.ENABLE_SERIAL) {
-    app.post('/draw', function(req, res) {
+  app.post('/draw', function(req, res) {
+    if (process.env.ENABLE_SERIAL) {
       var drawString = req.body.drawString;
-      // console.log('Request:', req.body.drawString)
-      var serialPort = new SerialPort(portName, {
-            baudrate: 9600,
-             dataBits: 8,
-             parity: 'none',
-             stopBits: 1,
-             flowControl: false
-        });
+      // console.log('drawing', drawString)
 
-        serialPort.on("open", function () {
-          console.log('open serial communication');
-          setTimeout(function() {
-
-            serialPort.write(drawString,function(err) {
-              if (err) {
-                console.log("error:", err);
-                res.send(err);
-              }
-              console.log('message written')
-              res.send('message written');
-            });
-
-            setTimeout(function() {
-              serialPort.close();
-            },8000)
-          }, 2000);
-        });
-    });
-  }
+      serialPort.write(drawString,function(err) {
+        if (err) {
+          console.log("error:", err);
+          res.send(err);
+        }
+        console.log('message written')
+        res.send('message written');
+      });
+    } else {
+      res.send('No matrix connected to draw to')
+    }
+  });
 };

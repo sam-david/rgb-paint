@@ -1,6 +1,24 @@
 $(document).ready(function() {
   isMouseDown = false
 
+
+  setInterval(function() {
+    if (pageController.serialEnabled && pageController.serialLiveMode) {
+      console.log('Sending matrix');
+      // pageController.socketSendMatrix();
+    }
+  }, 4500);
+
+  // setInterval(function() {
+  //   console.log('emit');
+  //   socket.emit('draw_matrix', { kingStringALing: 'data' });
+
+  // }, 200);
+
+  // socket.on('news', function (data) {
+  //   console.log(data);
+  // });
+
   $(document).on('mousedown', function() {
         isMouseDown = true;
     })
@@ -15,6 +33,8 @@ $(document).ready(function() {
 
         pageView.setAttrFillTo(innerCircle, currentRGB.toString())
         currentMatrix.addColorToCell(coords[0], coords[1], currentRGB.r, currentRGB.g, currentRGB.b)
+        // console.log('event', currentMatrix)
+        // pageController.socketSendCellUpdate(coords[0],coords[1]);
       }
   })
 
@@ -24,6 +44,7 @@ $(document).ready(function() {
 
         pageView.setAttrFillTo(this, currentRGB.toString())
         currentMatrix.addColorToCell(coords[0], coords[1], currentRGB.r, currentRGB.g, currentRGB.b)
+        // pageController.socketSendCellUpdate(coords[0],coords[1]);
       }
   })
 
@@ -40,6 +61,7 @@ $(document).ready(function() {
 
       currentMatrix.addColorToCell(coords[0], coords[1], currentRGB.r, currentRGB.g, currentRGB.b)
       pageView.setAttrFillTo(innerCircle, currentRGB.toString())
+      // pageController.socketSendCellUpdate(coords[0],coords[1]);
     }
   })
 
@@ -55,6 +77,7 @@ $(document).ready(function() {
 
       currentMatrix.addColorToCell(coords[0], coords[1], currentRGB.r, currentRGB.g, currentRGB.b)
       pageView.setAttrFillTo(this, currentRGB.toString())
+      // pageController.socketSendCellUpdate(coords[0],coords[1]);
     }
   })
 
@@ -84,6 +107,14 @@ $(document).ready(function() {
       pageView.setSelectedColor(currentRGB.toString());
     }
 
+  })
+
+  $(".color-wheel-select").on("click", function() {
+    var newColor = parseColorId(this.id)
+
+    currentRGB.setColors(newColor[0], newColor[1], newColor[2])
+    pageView.setSelectedColor(currentRGB.toString());
+    console.log('selected RGB:', currentRGB);
   })
 
   $(".color-wheel-select").on("click", function() {

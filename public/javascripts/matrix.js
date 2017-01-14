@@ -44,6 +44,9 @@ Matrix.prototype = {
   convertBase7ToBase255: function(val) {
     return Math.round((val / 7) * 255);
   },
+  convertBase255ToBase7: function(val) {
+    return Math.round((val / 255) * 7);
+  },
   addColorToCell: function(x,y,r,g,b) {
     this.matrix[x][y] = [r,g,b];
   },

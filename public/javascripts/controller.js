@@ -3,20 +3,63 @@ function Controller() {
   this.dropMode = false;
   this.customColor = false;
   this.currentEnvironment = 'development';
+  this.serialEnabled = false;
+  this.serialLiveMode = false;
 }
 
 Controller.prototype = {
-  sendMatrix: function() {
-    console.log('Sending to arduino:', currentMatrix)
-    swal({
-      title: "Sending to Arduino!",
-      text: "I will close in 5 seconds.",
-      timer: 5000,
-      type: "success",
-      showConfirmButton: false,
-      showLoaderOnConfirm: true
-    });
+  socketSendCellUpdate: function(x, y) {
+    var rgbMatrix = currentMatrix.matrix[x][y];
+    var r = currentMatrix.convertBase255ToBase7(rgbMatrix[0]);
+    var g = currentMatrix.convertBase255ToBase7(rgbMatrix[1]);
+    var b = currentMatrix.convertBase255ToBase7(rgbMatrix[2]);
+    console.log('rgb', r, g, b, 'xy', x, y);
+    socket.emit('update_cell', {
+      x: x,
+      y: y,
+      rgb: r.toString() + g.toString() + b.toString()
+    })
+  },
+  timedSocketEvent: function() {
+    var index = 0;
+    var self = this;
+    setInterval(function() {
+      console.log('socket sending', index, 0);
+      self.socketSendCellUpdate(index, 0);
+      index++;
+    }, 2000);
+  },
+  socketSendMatrix: function() {
+    console.time("buildBase7");
+
     var base7String = currentMatrix.convertBase255MatrixToBase7String();
+
+    console.log('base7String', base7String);
+    console.timeEnd("buildBase7");
+
+    socket.emit('draw_matrix', {
+      base7String: base7String
+    });
+  },
+  sendMatrix: function() {
+    // swal({
+    //   title: "Sending to Arduino!",
+    //   text: "I will close in 5 seconds.",
+    //   timer: 5000,
+    //   type: "success",
+    //   showConfirmButton: false,
+    //   showLoaderOnConfirm: true
+    // });
+    // if (currentMatrix.requestBaseString == '') {
+    //   var base7String = currentMatrix.convertBase255MatrixToBase7String();
+    // } else {
+    //   var base7String = currentMatrix.requestBaseString;
+    // }
+
+    var base7String = currentMatrix.convertBase255MatrixToBase7String();
+
+    console.log('Sending to arduino:', base7String)
+
     var request = $.ajax({
       method: 'POST',
       url: '/draw',
@@ -144,6 +187,10 @@ Controller.prototype = {
   toggleCustomColorMode: function() {
     alertify.message('Pick a swatch');
     this.customColor = true;
+  },
+  toggleLiveMode: function() {
+    this.serialLiveMode = !this.serialLiveMode;
+    pageView.colorLiveButton();
   },
   jsColorChange: function(picker) {
     console.log('jsco', picker)

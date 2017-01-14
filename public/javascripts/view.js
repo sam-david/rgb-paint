@@ -46,6 +46,13 @@ View.prototype = {
   loadCanvas: function() {
 
   },
+  colorLiveButton: function() {
+    if (pageController.serialLiveMode) {
+      $('.live-button').css('background-color', 'red');
+    } else {
+      $('.live-button').css('background-color', '#007095');
+    }
+  },
   setSelectedColor: function(rgb) {
     $(".selected-color").show();
     $(".selected-color").css({backgroundColor: 'rgb(' + rgb + ')'});
