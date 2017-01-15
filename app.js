@@ -10,6 +10,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var SerialPort = require('serialport');
 
+var serialCellQueue = [];
+var serialWriting = false;
 
 // creating the parser and piping can be shortened to
 
@@ -31,8 +33,22 @@ if (process.env.ENABLE_SERIAL) {
   });
 
   serialPort.on("data", function(data) {
-    console.log('GOT DATA: ', data.toString('utf8'));
+    var dataString = data.toString('utf8');
+    console.log('GOT DATA STRING: ', dataString);
+
+    if (dataString == 'W') {
+      serialWriting = false;
+    }
   })
+
+  setInterval(function() {
+    console.log('QUEUE: ', serialCellQueue.length, 'WR: ', serialWriting);
+    if (serialCellQueue.length > 0 && !serialWriting) {
+      var cellData = serialCellQueue.shift();
+      console.log('Writing', cellData);
+      writeCellToMatrix(cellData);
+    }
+  }, 100)
 }
 
 
@@ -50,28 +66,34 @@ io.on('connection', function(socket){
  });
 
  socket.on('update_cell', function(cellData) {
+    serialCellQueue.push(cellData);
+ });
+
+});
+
+function writeCellToMatrix(cellData) {
+  serialWriting = true;
   console.log('Sending matrix cell UPDATE to Arduino', cellData);
-  if (cellData.x.length > 1) {
-    var printX = cellData.x.toString();
+  var cellXString = cellData.x.toString();
+  var cellYString = cellData.y.toString();
+  if (cellXString.length > 1) {
+    var printX = cellXString;
   } else {
-    var printX = "0" + cellData.x.toString();
+    var printX = "0" + cellXString;
   }
-  if (cellData.y.length > 1) {
-    var printY = cellData.y.toString();
+  if (cellYString.length > 1) {
+    var printY = cellYString;
   } else {
-    var printY = "0" + cellData.y.toString();
+    var printY = "0" + cellYString;
   }
   var updateString = "U" + printX + printY + cellData.rgb;
-  console.log('update string', updateString);
   serialPort.write(updateString,function(err) {
     if (err) {
       console.log("error:", err);
     }
     console.log('Update string written');
   });
- });
-
-});
+}
 
 // io.on('draw_matrix', function() {
 //   console.log('drawing that matrix b');

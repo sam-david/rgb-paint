@@ -34,7 +34,7 @@ $(document).ready(function() {
         pageView.setAttrFillTo(innerCircle, currentRGB.toString())
         currentMatrix.addColorToCell(coords[0], coords[1], currentRGB.r, currentRGB.g, currentRGB.b)
         // console.log('event', currentMatrix)
-        // pageController.socketSendCellUpdate(coords[0],coords[1]);
+        pageController.socketSendCellUpdate(coords[0],coords[1]);
       }
   })
 
@@ -44,7 +44,7 @@ $(document).ready(function() {
 
         pageView.setAttrFillTo(this, currentRGB.toString())
         currentMatrix.addColorToCell(coords[0], coords[1], currentRGB.r, currentRGB.g, currentRGB.b)
-        // pageController.socketSendCellUpdate(coords[0],coords[1]);
+        pageController.socketSendCellUpdate(coords[0],coords[1]);
       }
   })
 
@@ -61,7 +61,7 @@ $(document).ready(function() {
 
       currentMatrix.addColorToCell(coords[0], coords[1], currentRGB.r, currentRGB.g, currentRGB.b)
       pageView.setAttrFillTo(innerCircle, currentRGB.toString())
-      // pageController.socketSendCellUpdate(coords[0],coords[1]);
+      pageController.socketSendCellUpdate(coords[0],coords[1]);
     }
   })
 
@@ -77,7 +77,7 @@ $(document).ready(function() {
 
       currentMatrix.addColorToCell(coords[0], coords[1], currentRGB.r, currentRGB.g, currentRGB.b)
       pageView.setAttrFillTo(this, currentRGB.toString())
-      // pageController.socketSendCellUpdate(coords[0],coords[1]);
+      pageController.socketSendCellUpdate(coords[0],coords[1]);
     }
   })
 
