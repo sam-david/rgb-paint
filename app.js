@@ -12,6 +12,7 @@ var SerialPort = require('serialport');
 
 var serialCellQueue = [];
 var serialWriting = false;
+var processingQueue = false;
 
 // creating the parser and piping can be shortened to
 
@@ -41,14 +42,14 @@ if (process.env.ENABLE_SERIAL) {
     }
   })
 
-  setInterval(function() {
-    console.log('QUEUE: ', serialCellQueue.length, 'WR: ', serialWriting);
-    if (serialCellQueue.length > 0 && !serialWriting) {
-      var cellData = serialCellQueue.shift();
-      console.log('Writing', cellData);
-      writeCellToMatrix(cellData);
-    }
-  }, 100)
+  // setInterval(function() {
+  //   console.log('QUEUE: ', serialCellQueue.length, 'WR: ', serialWriting);
+  //   if (serialCellQueue.length > 0 && !serialWriting) {
+  //     var cellData = serialCellQueue.shift();
+  //     console.log('Writing', cellData);
+  //     writeCellToMatrix(cellData);
+  //   }
+  // }, 100)
 }
 
 
@@ -66,13 +67,19 @@ io.on('connection', function(socket){
  });
 
  socket.on('update_cell', function(cellData) {
-    serialCellQueue.push(cellData);
+    if (processingQueue) {
+      console.log('processingQueue')
+      serialCellQueue.push(cellData);
+    } else {
+      writeCellToMatrix(cellData);
+    }
  });
 
 });
 
 function writeCellToMatrix(cellData) {
   serialWriting = true;
+  processingQueue = true;
   console.log('Sending matrix cell UPDATE to Arduino', cellData);
   var cellXString = cellData.x.toString();
   var cellYString = cellData.y.toString();
@@ -88,10 +95,19 @@ function writeCellToMatrix(cellData) {
   }
   var updateString = "U" + printX + printY + cellData.rgb;
   serialPort.write(updateString,function(err) {
-    if (err) {
-      console.log("error:", err);
-    }
-    console.log('Update string written');
+    if (err) { console.log("error:", err); }
+
+    serialPort.drain(function() {
+      serialWriting = false;
+      console.log('Cell sent! Drain');
+      if (serialCellQueue.length > 0) {
+        var cellData = serialCellQueue.shift();
+        console.log('Writing', cellData);
+        writeCellToMatrix(cellData);
+      } else {
+        processingQueue = false;
+      }
+    })
   });
 }
 
